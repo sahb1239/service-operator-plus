@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Shared;
+using Shared.Kafka;
 
 namespace Tester
 {
@@ -19,15 +20,7 @@ namespace Tester
                 {
                     services.AddHostedService<Worker>();
 
-                    services.AddSingleton<Confluent.Kafka.IProducer<long, string>>(serviceProvider =>
-                    {
-                        var config = new ProducerConfig();
-                        serviceProvider.GetService<IConfiguration>().GetSection("Kafka:ProducerSettings").Bind(config);
-                        return new ProducerBuilder<long, string>(config)
-                            .Build();
-                    });
-
-                    services.AddSingleton<Shared.IProducer<long, string>, KafkaProducer<long, string>>();
+                    services.AddKafkaProducer<long, string>("Kafka:ProducerSettings");
                 });
     }
 }

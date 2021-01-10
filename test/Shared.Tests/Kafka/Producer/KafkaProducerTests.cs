@@ -23,22 +23,27 @@ namespace Shared.Tests
                 var value = "some-value";
                 var sut = new KafkaProducer<long, string>(kafkaProducer.Object);
 
-                kafkaProducer.Setup(e => e.ProduceAsync(It.IsAny<string>(), It.IsAny<Confluent.Kafka.Message<long, string>>(), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync((string topic, Confluent.Kafka.Message<long, string> message, CancellationToken token) =>
-                    new Confluent.Kafka.DeliveryResult<long, string>
-                    {
-                        Message = new Confluent.Kafka.Message<long, string>
-                        {
-                            Key = key,
-                            Value = value,
-                        }
-                    });
+                kafkaProducer.Setup(e => e.ProduceAsync(It.IsAny<string>(),
+                        It.IsAny<Confluent.Kafka.Message<long, string>>(), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(
+                        (string topic, Confluent.Kafka.Message<long, string> message, CancellationToken token) =>
+                            new Confluent.Kafka.DeliveryResult<long, string>
+                            {
+                                Message = new Confluent.Kafka.Message<long, string>
+                                {
+                                    Key = key,
+                                    Value = value,
+                                }
+                            });
 
                 // Act
                 await sut.ProduceAsync(topic, value);
 
                 // Assert
-                kafkaProducer.Verify(e => e.ProduceAsync(topic, It.Is<Confluent.Kafka.Message<long, string>>(m => m.Key == null && m.Value == value), It.IsAny<CancellationToken>()), Times.Once);
+                kafkaProducer.Verify(
+                    e => e.ProduceAsync(topic, It.Is<Confluent.Kafka.Message<long, string>>(m => m.Value == value),
+                        It.IsAny<CancellationToken>()), Times.Once);
+                kafkaProducer.VerifyNoOtherCalls();
             }
 
             [Test]

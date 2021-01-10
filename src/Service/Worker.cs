@@ -40,7 +40,7 @@ namespace Service
                 await _producer.ProduceAsync("PlusResult", JsonConvert.SerializeObject(output));
             }
 
-            subscription.Unsubscribe();
+            _consumer.Unsubscribe(subscription);
         }
     }
 }
