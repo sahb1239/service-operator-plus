@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - test
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CREATE_TOPICS: "Plus:1:1,PlusResult:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - test
+    links:
+      - zookeeper:zookeeper
+    depends_on:
+      - zookeeper
+  service:
+    image: ${DOCKER_REGISTRY-}service
+    build:
+      context: .
+      dockerfile: src/Service/Dockerfile
+    networks:
+      - test
+    links:
+      - kafka:kafka
+  tester:
+    image: ${DOCKER_REGISTRY-}tester
+    build:
+      context: .
+      dockerfile: src/Tester/Dockerfile
+    networks:
+      - test
+    links:
+      - kafka:kafka
+networks:
+  test:
+    driver: bridge
