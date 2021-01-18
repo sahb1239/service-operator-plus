@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tester2-deployment
+  labels:
+    app: tester2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tester2
+  template:
+    metadata:
+      labels:
+        app: tester2
+    spec:
+      containers:
+      - name: tester2
+        image: tester:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: "Kafka__ProducerSettings__BootstrapServers"
+          value: "kafka-service:9092"

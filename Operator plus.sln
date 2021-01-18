@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Tests", "test\Shared
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A77B3245-1CE3-4DB3-8009-C14DBDD440B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "src\Tester\Tester.csproj", "{FAD2B917-407E-44CF-B9B0-07167F3C8ECE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester", "src\Tester\Tester.csproj", "{FAD2B917-407E-44CF-B9B0-07167F3C8ECE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6B241ED0-ECC3-4D66-A90B-FBCF3B733634}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EA07DE4E-28D7-44B4-BB79-13C8BF24EA9E} = {6B241ED0-ECC3-4D66-A90B-FBCF3B733634}
+		{80B8BD69-D9CB-4BBA-974D-E569AC1DD81C} = {6B241ED0-ECC3-4D66-A90B-FBCF3B733634}
+		{FAD2B917-407E-44CF-B9B0-07167F3C8ECE} = {6B241ED0-ECC3-4D66-A90B-FBCF3B733634}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DAE028A6-EEBA-48EC-BD80-CEF79FC880D3}

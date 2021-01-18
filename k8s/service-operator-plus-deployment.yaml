@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-operator-plus-deployment
+  labels:
+    app: service-operator-plus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-operator-plus
+  template:
+    metadata:
+      labels:
+        app: service-operator-plus
+    spec:
+      containers:
+      - name: service-operator-plus
+        image: sahb/service-operator-plus:latest
+        imagePullPolicy: Always
+        env:
+        - name: "Kafka__ProducerSettings__BootstrapServers"
+          value: "kafka-service:9092"
+        - name: "Kafka__ConsumerSettings__BootstrapServers"
+          value: "kafka-service:9092"

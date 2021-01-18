@@ -32,11 +32,11 @@ namespace Service
                 _logger.LogInformation("Waiting for message at: {0}", DateTime.Now);
 
                 var message = await subscription.ConsumeAsync();
-                _logger.LogInformation("Retrieved operands", message.value);
+                _logger.LogInformation("Retrieved operands: {0}", message.value);
 
                 var output = _mathService.Execute(JsonConvert.DeserializeObject<Operation>(message.value));
-                _logger.LogInformation("Returning response", JsonConvert.SerializeObject(output.Output));
 
+                _logger.LogInformation("Returning response: {0}", JsonConvert.SerializeObject(output.Output));
                 await _producer.ProduceAsync("PlusResult", JsonConvert.SerializeObject(output));
             }
 
